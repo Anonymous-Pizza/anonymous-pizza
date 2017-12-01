@@ -1,7 +1,9 @@
 var Exercise = (props) => {
   var description = props.exercise.description;
   var instructions = description.split('.');
-  console.log('instructons', instructions);
+  if (instructions[instructions.length - 1] === '') {
+    instructions = instructions.splice(-1);
+  };
   return(
     <div className="exercise">
     <div className="exerciseDescription">
@@ -13,7 +15,6 @@ var Exercise = (props) => {
     </div>
   </div>
   )
-
 };
 
 
