@@ -1,9 +1,28 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import exampleExerciseData from '../exampleExerciseData.js';
+
+import Header from './Header.jsx';
+import Dashboard from './Dashboard.jsx';
+import Workout from './Workout.jsx';
+import Login from './Login.jsx';
+import SignUp from './SignUp.jsx';
+import Summary from './Summary.jsx';
+import Countdown from './Countdown.jsx';
+
+// import Exercise from './Exercise.jsx';
+// import History from './History.jsx';
+// import PastWorkout from './PastWorkout.jsx';
+// import Timer from './Timer.jsx';
+
+
 class App extends React.Component {
   constructor() {
     super();
     this.state = {
       currentState: 'Dashboard',
-      currentWorkout: window.exampleExerciseData,
+      currentWorkout: exampleExerciseData,
       currentExercise: 0,
       workoutDate: null,
       workoutHistory: [],
@@ -269,7 +288,7 @@ class App extends React.Component {
           return (<Countdown countdown={this.state.countdown} />);
       }
       if (this.state.currentState === 'Workout') {
-        return (<Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref="workoutPage" />);
+        return (<Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref= "workoutPage"/>);
       }
       if (this.state.currentState === 'Summary') {
         return (<Summary goToDashboard={this.goToDashboard} currentWorkout={this.state.currentWorkout} workoutDate={this.state.workoutDate} workoutLengthInMins={this.state.workoutLengthInMins} loggedIn={this.state.loggedIn} />);
@@ -285,5 +304,4 @@ class App extends React.Component {
   }
 
 } // End of Class
-
-window.App = App;
+export default App;

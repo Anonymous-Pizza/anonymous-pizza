@@ -182,4 +182,6 @@ var scorpionStretch = {
   Add all the exercises to an array
 * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-window.exampleExerciseData = [highKnees, flutterKicks, cobra, catCow, hipCircles,  plank, plankKneeToElbow, windshieldWipers, reverseCrunch, sitUps, standingCrossBodyCrunches, bicycleCrunches, doubleSideJacknifes,  ragdoll, scorpionStretch];
+var exampleExerciseData = [highKnees, flutterKicks, cobra, catCow, hipCircles,  plank, plankKneeToElbow, windshieldWipers, reverseCrunch, sitUps, standingCrossBodyCrunches, bicycleCrunches, doubleSideJacknifes,  ragdoll, scorpionStretch];
+
+export default exampleExerciseData;

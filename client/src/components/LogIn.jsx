@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Login = (props) => (
   <div className="loginPage">
     <h1>Log In</h1>
@@ -11,5 +13,5 @@ var Login = (props) => (
   </div>
 );
 
+export default Login;
 
-window.Login = Login;

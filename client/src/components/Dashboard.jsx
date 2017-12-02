@@ -1,3 +1,6 @@
+import React from 'react';
+import History from './History.jsx';
+
 var Dashboard = (props) => (
   <div className="dashboard">
     <h1>Start Workout</h1>
@@ -8,5 +11,5 @@ var Dashboard = (props) => (
   </div>
 );
 
+export default Dashboard;
 
-window.Dashboard = Dashboard;
