@@ -1,3 +1,5 @@
+import React from 'react';
+
 var SignUp = (props) => (
   <div className="signupPage">
     <h1>Sign Up</h1>
@@ -11,5 +13,5 @@ var SignUp = (props) => (
   </div>
 );
 
+export default SignUp;
 
-window.SignUp = SignUp;

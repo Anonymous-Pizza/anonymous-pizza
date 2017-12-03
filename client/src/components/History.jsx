@@ -1,3 +1,6 @@
+import React from 'react';
+import PastWorkout from './PastWorkout.jsx';
+
 var History = (props) => (
   <div className="history">
     <h1> History </h1>
@@ -6,5 +9,5 @@ var History = (props) => (
   </div>
 );
 
+export default History;
 
-window.History = History;

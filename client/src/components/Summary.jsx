@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Summary = (props) => (
   <div className="summary">
     <h1>Workout Summary</h1>
@@ -16,5 +18,5 @@ var Summary = (props) => (
 
 );
 
+export default Summary;
 
-window.Summary = Summary;
