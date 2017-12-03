@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Exercise = (props) => (
   <div className="exercise">
     <div className="exerciseDescription">
@@ -8,5 +10,5 @@ var Exercise = (props) => (
   </div>
 );
 
+export default Exercise;
 
-window.Exercise = Exercise;
