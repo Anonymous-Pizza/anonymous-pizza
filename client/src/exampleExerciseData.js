@@ -184,4 +184,10 @@ var scorpionStretch = {
 
 var exampleExerciseData = [highKnees, flutterKicks, cobra, catCow, hipCircles,  plank, plankKneeToElbow, windshieldWipers, reverseCrunch, sitUps, standingCrossBodyCrunches, bicycleCrunches, doubleSideJacknifes,  ragdoll, scorpionStretch];
 
+// var exampleExerciseData = {
+//   warmup: [highKnees, catCow, hipCircles],
+//   workout: [flutterKicks, plank, plankKneeToElbow, windshieldWipers, reverseCrunch, sitUps, standingCrossBodyCrunches, bicycleCrunches, doubleSideJacknifes],
+//   cooldown: [cobra, ragdoll, scorpionStretch]
+// };
+
 export default exampleExerciseData;

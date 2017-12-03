@@ -11,11 +11,6 @@ import SignUp from './SignUp.jsx';
 import Summary from './Summary.jsx';
 import Countdown from './Countdown.jsx';
 
-// import Exercise from './Exercise.jsx';
-// import History from './History.jsx';
-// import PastWorkout from './PastWorkout.jsx';
-// import Timer from './Timer.jsx';
-
 
 class App extends React.Component {
   constructor() {
@@ -32,6 +27,9 @@ class App extends React.Component {
       time: null,
       showButtons: true,
       workoutLengthInMins: 15
+      // warmupLimitInMins: 10,
+      // workoutLimitInMins: 5,
+      // cooldownLimitInMins: 0
     };
 
     this.goToWorkout = this.goToWorkout.bind(this);
@@ -45,9 +43,8 @@ class App extends React.Component {
     this.logOut = this.logOut.bind(this);
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
-
+    this.updateWorkoutLength = this.updateWorkoutLength.bind(this);
   }
-
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
   The following functions change the view on the app
@@ -76,7 +73,16 @@ class App extends React.Component {
     this.setState({currentState: 'Countdown'});
     this.setState({showButtons: false});
     this.setState({currentExercise: 0});
-   // this.getExercises(); //uncomment to fetch from db
+
+    // this.getExercises(); //uncomment to fetch from db
+    // var totalWorkoutTime = this.state.workoutLengthInMins;
+    // var limit = Math.ceil(totalWorkoutTime/3);
+    // var warmupLimit = totalWorkoutTime - limit;
+    // var workoutLimit = totalWorkoutTime - (2*limit);
+    // console.log("warmup lim" + warmupLimit + "  workout: " + workoutLimit);
+    // this.setState({ warmupLimitInMins: warmupLimit });
+    // this.setState({ workoutLimitInMins: workoutLimit });
+
     this.startCountdown();
   }
 
@@ -268,6 +274,14 @@ class App extends React.Component {
     return mm + ':' + ss;
   }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * *
+  Update the workout length function
+* * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+  updateWorkoutLength(workoutLength) {
+    this.setState({workoutLengthInMins: workoutLength});
+  }
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
   Renders the components based ot the current state
@@ -276,7 +290,7 @@ class App extends React.Component {
   render() {
     var toBeRendered = () => {
       if (this.state.currentState === 'Dashboard') {
-        return (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} />);
+        return (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} updateWorkoutLength={this.updateWorkoutLength}/>);
       }
       if (this.state.currentState === 'Login') {
           return (<Login login={this.login} />);
