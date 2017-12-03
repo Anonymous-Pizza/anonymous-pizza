@@ -6,7 +6,7 @@ import exampleExerciseData from '../exampleExerciseData.js';
 import Header from './Header.jsx';
 import Dashboard from './Dashboard.jsx';
 import Workout from './Workout.jsx';
-import Login from './Login.jsx';
+// import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import Summary from './Summary.jsx';
 import Countdown from './Countdown.jsx';
@@ -293,7 +293,7 @@ class App extends React.Component {
         return (<Dashboard goToCountdown={this.goToCountdown} workoutHistory={this.state.workoutHistory} loggedIn={this.state.loggedIn} updateWorkoutLength={this.updateWorkoutLength}/>);
       }
       if (this.state.currentState === 'Login') {
-          return (<Login login={this.login} />);
+          // return (<Login login={this.login} />);
       }
       if (this.state.currentState === 'SignUp') {
           return (<SignUp signup={this.signup}  />);
