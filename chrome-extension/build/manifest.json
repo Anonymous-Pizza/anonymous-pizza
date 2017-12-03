@@ -1,0 +1,14 @@
+{
+  "manifest_version": 2,
+
+  "name": "Chrome extension getting started ",
+  "description": "Just seeing what's out there?!",
+  "version": "1.0",
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_title": "Chrome Example",
+    "default_popup": "popup.html"
+  }
+}
