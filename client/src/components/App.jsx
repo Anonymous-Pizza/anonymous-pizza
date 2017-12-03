@@ -6,7 +6,7 @@ import exampleExerciseData from '../exampleExerciseData.js';
 import Header from './Header.jsx';
 import Dashboard from './Dashboard.jsx';
 import Workout from './Workout.jsx';
-import Login from './Login2.jsx';
+import Login from './LogIn.jsx';
 import SignUp from './SignUp.jsx';
 import Summary from './Summary.jsx';
 import Countdown from './Countdown.jsx';
