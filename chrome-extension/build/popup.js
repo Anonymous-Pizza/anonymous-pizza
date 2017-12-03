@@ -19744,9 +19744,22 @@ var App = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 null,
-                ' Reminder Set: ',
-                reminder_time,
-                ' min',
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                        'h3',
+                        null,
+                        ' FitStop '
+                    )
+                ),
+                _react2.default.createElement(
+                    'p',
+                    null,
+                    'Current Reminder Time: ',
+                    reminder_time,
+                    ' min(s)'
+                ),
                 _react2.default.createElement(
                     'form',
                     { onSubmit: function onSubmit(e) {

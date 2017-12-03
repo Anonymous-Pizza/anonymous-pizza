@@ -1205,6 +1205,10 @@ module.exports = isIndex;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _redux = __webpack_require__(7);
 
 var _combineReducers = __webpack_require__(39);
@@ -1215,11 +1219,46 @@ var _reactChromeRedux = __webpack_require__(41);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var updateTimerInterval = 1000;
+
 var store = (0, _redux.createStore)(_combineReducers2.default);
 
 (0, _reactChromeRedux.wrapStore)(store, {
     portName: 'FS'
 });
+
+var startTimer = function startTimer() {
+    updateBadge();
+    var timerId = window.setTimeout(startTimer, updateTimerInterval);
+};
+
+function pad(d) {
+    return d < 10 ? '0' + d.toString() : d.toString();
+}
+
+var updateBadge = function updateBadge() {
+    var storeState = store.getState();
+    store.dispatch({ type: 'UPDATE_TIMER' });
+    console.log(storeState);
+
+    if (storeState.reminder.time_until_alert) {
+        var badgeMinutes = storeState.reminder.time_until_alert.getMinutes();
+        var badgeSeconds = storeState.reminder.time_until_alert.getSeconds();
+
+        if (badgeMinutes === 0 && badgeSeconds === 0) {
+            store.dispatch({ type: 'RESET_TIMER' });
+            alert("Time to hit FitStop !!!");
+            chrome.tabs.create({ url: "https://www.hackreactor.com" });
+        }
+
+        var badgeText = badgeMinutes + ":" + pad(badgeSeconds);
+        chrome.browserAction.setBadgeText({ text: badgeText });
+    }
+};
+
+startTimer();
+
+exports.default = startTimer;
 
 /***/ }),
 /* 25 */
@@ -1801,7 +1840,13 @@ exports.default = reducers;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var initialState = { current_reminder: undefined, current_reminder_input: undefined, time_till_alert: -1 };
+var initialState = {
+    current_reminder: undefined,
+    current_reminder_input: undefined,
+    time_until_alert: undefined,
+    time_on_alert: undefined,
+    alert_on: 0
+};
 
 var reminder = function reminder() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
@@ -1810,8 +1855,48 @@ var reminder = function reminder() {
     switch (action.type) {
         case 'CHANGE_REMINDER_INPUT':
             return Object.assign({}, state, { current_reminder_input: action.payload });
+
         case 'SET_REMINDER':
-            return Object.assign({}, state, { current_reminder: state.current_reminder_input });
+            // set time on alert as new reminder set
+            var d = new Date();
+            d.setMinutes(d.getMinutes() + parseInt(state.current_reminder_input));
+
+            // set time until alert as new reminder set
+            var e = new Date();
+            e.setHours(0, 0, 0, 0);
+            e.setMilliseconds(state.current_reminder_input * 60 * 1000);
+
+            return Object.assign({}, state, { current_reminder: state.current_reminder_input,
+                time_on_alert: d, time_until_alert: e });
+
+        case 'RESET_TIMER':
+            // reset time on alert to start
+            var d = new Date();
+            console.log(d.getMinutes());
+            d.setMinutes(d.getMinutes() + parseInt(state.current_reminder));
+
+            // reset time until alert to start
+            var e = new Date(0);
+            e.setHours(0, 0, 0, 0);
+            e.setMilliseconds(state.current_reminder * 60 * 1000);
+
+            return Object.assign({}, state, { time_on_alert: d, time_until_alert: e });
+
+        case 'UPDATE_TIMER':
+            var d = undefined;
+            if (state.time_until_alert) {
+                d = state.time_until_alert;
+                d.setSeconds(d.getSeconds() - 1);
+            } else {
+                if (state.current_reminder) {
+                    d = new Date(0);
+                    d.setHours(0, 0, 0, 0);
+                    d.setMilliseconds(state.current_reminder * 60 * 1000);
+                }
+            }
+
+            return Object.assign({}, state, { time_until_alert: d });
+
         default:
             return state;
     }

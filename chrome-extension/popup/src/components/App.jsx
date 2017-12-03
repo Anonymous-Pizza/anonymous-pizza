@@ -14,7 +14,15 @@ class App extends React.Component{
         if (this.props.current_state.reminder) {
             var reminder_time = this.props.current_state.reminder.current_reminder
         }
-        return (<div> Reminder Set: {reminder_time} min
+        return (<div> 
+                    <p>
+                        <h3> FitStop </h3> 
+                    </p>
+                
+                    <p>
+                        Current Reminder Time: {reminder_time} min(s)
+                    </p>
+
                     <form onSubmit={(e) => {this.props.dispatch({type: 'SET_REMINDER'})}}>
                         <label> Enter Reminder time in minutes </label>
                         <input type="number" onChange={(e) => {this.props.dispatch({type: 'CHANGE_REMINDER_INPUT', payload: e.target.value})}}/>
