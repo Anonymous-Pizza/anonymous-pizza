@@ -9,6 +9,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var keys = require('../config/keys');
 
 
 var bcrypt = require('bcrypt');
@@ -17,7 +18,18 @@ var salt = bcrypt.genSaltSync(saltRounds);
 
 var app = express();
 
-passport.use(new GoogleStrategy());
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
+      callbackURL: '/auth/google/callback'
+    }, 
+    accessToken => {
+      console.log(accessToken);
+    }
+  )
+);
 
 app.listen(process.env.PORT || 3000);
 

@@ -1,14 +1,9 @@
 /node_modules
-
 .DS_Store
-
-
 /server/dbInfo.js
 /server/seedDb.js
-
 /client/public/compiled
-
 /.flooignore
-
 /.floo
-
+package-lock.json
+dev.js
