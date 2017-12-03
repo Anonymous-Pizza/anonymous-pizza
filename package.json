@@ -5,11 +5,16 @@
   "author": "Anonymous Pizza",
   "license": "UNLICENSED",
   "engines": {
-    "node": ">=4.0.0"
+    "node": "8.8.0",
+    "npm": "5.5.1"
   },
   "scripts": {
-    "start": "nodemon server/server.js",
-    "build": "webpack --watch"
+    "client": "webpack -wd",
+    "start": "node server/server.js",
+    "build:prod": "webpack",
+    "server": "nodemon server/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "npm run build:prod"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
