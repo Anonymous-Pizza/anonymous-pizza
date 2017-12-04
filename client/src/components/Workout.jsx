@@ -1,3 +1,7 @@
+import React from 'react';
+import Exercise from './Exercise.jsx';
+import Timer from './Timer.jsx';
+
 class Workout extends React.Component {
   constructor(props) {
     super(props);
@@ -6,7 +10,7 @@ class Workout extends React.Component {
       workoutActive: false,
       cooldownActive: false
     }
-    this.highlightActiveTitle.bind(this);
+    this.highlightActiveTitle = this.highlightActiveTitle.bind(this);
   }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -39,9 +43,9 @@ class Workout extends React.Component {
         <span className={'warmupTitle ' + (this.state.warmupActive ? 'activeTitle' : null)}>Warmup</span>
         <span className={'workoutTitle ' + (this.state.workoutActive ? 'activeTitle' : null)}>Workout</span>
         <span className={'cooldownTitle ' + (this.state.cooldownActive ? 'activeTitle' : null)}>Cooldown</span>
-
         <Timer timer= {this.props.timer} />
         <Exercise exercise={this.props.exercise} />
+
         <button onClick={this.props.goToDashboard} className="blackButton">Quit & Back To Dashboard</button>
         <button onClick={this.props.goToSummary} className="blackButton">Summary</button>
       </div>
@@ -50,6 +54,9 @@ class Workout extends React.Component {
 
 } // End of Class
 
+export default Workout;
 
-window.Workout = Workout;
+
+
+
 

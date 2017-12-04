@@ -7,6 +7,10 @@ var Exercise = require('./db').exerciseModel;
 var User = require('./db').userModel;
 var ObjectID = require('mongodb').ObjectID;
 
+var passport = require('passport');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var keys = require('../config/keys');
+
 
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -14,11 +18,21 @@ var salt = bcrypt.genSaltSync(saltRounds);
 
 var app = express();
 
-app.listen(process.env.PORT || 3000);
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
+      callbackURL: '/auth/google/callback'
+    }, 
+    accessToken => {
+      console.log(accessToken);
+    }
+  )
+);
 
+app.listen(process.env.PORT || 3000);
 app.use('/public', express.static('client/public'));
-app.use('/react', express.static('node_modules/react/dist'));
-app.use('/react-dom', express.static('node_modules/react-dom/dist'));
 app.use('/jquery', express.static('node_modules/jquery/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
