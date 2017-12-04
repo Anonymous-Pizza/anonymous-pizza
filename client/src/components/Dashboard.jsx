@@ -15,7 +15,7 @@ class Dashboard extends React.Component {
   render(){
     return (
       <div className="dashboard">
-        <h3>How many minutes you want to work out? <input placeholder="15" onChange={this.handleInputChange}></input></h3>
+        <h2>How many minutes you want to work out? <input className="workoutTime" placeholder="15" onChange={this.handleInputChange}></input></h2>
 
         <h1>Start Workout</h1>
         <div className="startButton">

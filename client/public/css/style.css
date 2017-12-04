@@ -328,5 +328,13 @@ input[type=submit] {
   margin-bottom: 20px;
 }
 
-
+.workoutTime {
+  width: 50px;
+  height: 20px;
+  margin-top: -20px;
+  font-weight: bolder;
+  text-align: center;
+  font-size: large;
+  border: 2px solid black
+}
 

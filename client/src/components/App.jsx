@@ -17,7 +17,7 @@ class App extends React.Component {
     super();
     this.state = {
       currentState: 'Dashboard',
-      currentWorkout: exampleExerciseData,
+      currentWorkout: exampleExerciseData.warmup,
       currentExercise: 0,
       workoutDate: null,
       workoutHistory: [],
@@ -26,10 +26,11 @@ class App extends React.Component {
       countdown: 3,
       time: null,
       showButtons: true,
-      workoutLengthInMins: 15
-      // warmupLimitInMins: 10,
-      // workoutLimitInMins: 5,
-      // cooldownLimitInMins: 0
+      workoutLengthInMins: 15,
+      warmupLowerLimitInMins: 10,
+      workoutLowerLimitInMins: 5,
+      completedExercises: [],
+      workedoutTimeInSec: 0
     };
 
     this.goToWorkout = this.goToWorkout.bind(this);
@@ -75,14 +76,13 @@ class App extends React.Component {
     this.setState({currentExercise: 0});
 
     // this.getExercises(); //uncomment to fetch from db
-    // var totalWorkoutTime = this.state.workoutLengthInMins;
-    // var limit = Math.ceil(totalWorkoutTime/3);
-    // var warmupLimit = totalWorkoutTime - limit;
-    // var workoutLimit = totalWorkoutTime - (2*limit);
-    // console.log("warmup lim" + warmupLimit + "  workout: " + workoutLimit);
-    // this.setState({ warmupLimitInMins: warmupLimit });
-    // this.setState({ workoutLimitInMins: workoutLimit });
 
+    var totalWorkoutTime = this.state.workoutLengthInMins;
+    var limit = Math.ceil(totalWorkoutTime/3);
+    var warmupLimit = totalWorkoutTime - limit;
+    var workoutLimit = totalWorkoutTime - (2*limit);
+    this.setState({ warmupLowerLimitInMins: warmupLimit });
+    this.setState({ workoutLowerLimitInMins: workoutLimit });
     this.startCountdown();
   }
 
@@ -96,6 +96,7 @@ class App extends React.Component {
     this.setState({showButtons: true});
     var currentDate = Date();
     this.setState({workoutDate: currentDate});
+    this.setState({workedoutTimeInSec: this.state.time});
     clearInterval(this.state.interval);
     if (this.state.loggedIn) {
       this.sendWorkoutData();
@@ -256,11 +257,53 @@ class App extends React.Component {
     current--;
     this.setState({time: current});
     if (this.state.time <= 0) {
+      var completed = this.state.completedExercises;
+      completed.push(this.state.currentWorkout[this.state.currentExercise]);
+      this.setState({ completedExercises: completed });
       this.goToSummary();
     } else if (this.state.time % 60 === 0) {
-      var next = this.state.currentExercise;
-      next++;
-      this.setState({currentExercise: next});
+      //updating completed exercises list
+      var completed = this.state.completedExercises;
+      completed.push(this.state.currentWorkout[this.state.currentExercise]);
+      this.setState({ completedExercises: completed });
+
+      //logic to move to next type of exercises
+      var timeInMins = this.state.time/60;
+      if(timeInMins > this.state.warmupLowerLimitInMins) {
+        var warmupExercises = this.state.currentWorkout;
+        var next = this.state.currentExercise;
+
+        if(next >= warmupExercises.length - 1){
+          next = 0;
+        } else {
+          next++;
+        }
+        this.setState({currentExercise: next});
+      } else if (timeInMins == this.state.warmupLowerLimitInMins) {
+        this.setState({currentWorkout: exampleExerciseData.workout});
+        this.setState({currentExercise: 0});
+      } else if (timeInMins > this.state.workoutLowerLimitInMins && timeInMins < this.state.warmupLowerLimitInMins){
+        var workoutExercises = this.state.currentWorkout;
+        var next = this.state.currentExercise;
+        if(next >= workoutExercises.length - 1){
+          next = 0;
+        } else {
+          next++;
+        }
+        this.setState({currentExercise: next});
+      } else if (timeInMins == this.state.workoutLowerLimitInMins){
+        this.setState({currentWorkout: exampleExerciseData.cooldown});
+        this.setState({currentExercise: 0});
+      } else if (timeInMins < this.state.workoutLowerLimitInMins){
+        var cooldownExercises = this.state.currentWorkout;
+        var next = this.state.currentExercise;
+        if(next >= cooldownExercises.length - 1){
+          next = 0;
+        } else {
+          next++;
+        }
+        this.setState({currentExercise: next});
+      }
       this.refs.workoutPage.highlightActiveTitle();
     }
   }
@@ -305,7 +348,7 @@ class App extends React.Component {
         return (<Workout exercise={this.state.currentWorkout[this.state.currentExercise]} timer={this.formatTime(this.state.time)} countdown={this.state.countdown} goToSummary={this.goToSummary} goToDashboard={this.goToDashboard} ref= "workoutPage"/>);
       }
       if (this.state.currentState === 'Summary') {
-        return (<Summary goToDashboard={this.goToDashboard} currentWorkout={this.state.currentWorkout} workoutDate={this.state.workoutDate} workoutLengthInMins={this.state.workoutLengthInMins} loggedIn={this.state.loggedIn} />);
+        return (<Summary goToDashboard={this.goToDashboard} completedExercises= {this.state.completedExercises} currentWorkout={this.state.currentWorkout} workoutDate={this.state.workoutDate} workoutLengthInMins={this.state.workoutLengthInMins} loggedIn={this.state.loggedIn} workedoutTimeInSec={this.state.workedoutTimeInSec}/>);
       }
     }
 
