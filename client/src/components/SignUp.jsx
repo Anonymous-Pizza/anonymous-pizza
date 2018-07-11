@@ -8,6 +8,8 @@ var SignUp = (props) => (
       <input id="password" type="password" name="password"/>
       <input type="submit" value="Sign Up"/>
     </form>
+    <button onClick={() => props.dashboard()}>Back to Dashboard
+    </button>
   </div>
 );
 
